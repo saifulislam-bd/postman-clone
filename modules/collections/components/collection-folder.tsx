@@ -168,59 +168,66 @@ const CollectionFolder = ({ collection }: Props) => {
               </div>
             ) : hasRequests ? (
               <div className="ml-6 border-l border-zinc-800 pl-4 space-y-1">
-                {requestData.map((request: any) => (
-                  <div
-                    key={request.id}
-                    onClick={() => openRequestTab(request)}
-                    className="flex items-center justify-between py-2 px-3 hover:bg-zinc-900/50 rounded-md cursor-pointer group transition-colors"
-                  >
-                    <div className="flex items-center space-x-3 flex-1">
-                      <div className="flex items-center space-x-2">
-                        {/* @ts-ignore */}
-                        <span
-                          className={`text-xs font-bold px-2 py-1 rounded ${
-                            requestColorMap[
-                              request.method as keyof typeof requestColorMap
-                            ] ?? ""
-                          } bg-zinc-800`}
-                        >
-                          {request.method}
-                        </span>
-                        <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-sm shadow-green-400/50"></div>
-                      </div>
-                      <div className="flex flex-col flex-1 min-w-0">
-                        <span className="text-sm text-zinc-200 truncate font-medium">
-                          {request.name || request.url}
-                        </span>
-                        {request.url && request.name && (
-                          <span className="text-xs text-zinc-500 truncate">
-                            {request.url}
+                {requestData.map(
+                  (request: {
+                    id: string;
+                    name?: string;
+                    url?: string;
+                    method: REST_METHOD;
+                  }) => (
+                    <div
+                      key={request.id}
+                      onClick={() => openRequestTab(request)}
+                      className="flex items-center justify-between py-2 px-3 hover:bg-zinc-900/50 rounded-md cursor-pointer group transition-colors"
+                    >
+                      <div className="flex items-center space-x-3 flex-1">
+                        <div className="flex items-center space-x-2">
+                          {/* @ts-ignore */}
+                          <span
+                            className={`text-xs font-bold px-2 py-1 rounded ${
+                              requestColorMap[
+                                request.method as keyof typeof requestColorMap
+                              ] ?? ""
+                            } bg-zinc-800`}
+                          >
+                            {request.method}
                           </span>
-                        )}
+                          <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shadow-sm shadow-green-400/50"></div>
+                        </div>
+                        <div className="flex flex-col flex-1 min-w-0">
+                          <span className="text-sm text-zinc-200 truncate font-medium">
+                            {request.name || request.url}
+                          </span>
+                          {request.url && request.name && (
+                            <span className="text-xs text-zinc-500 truncate">
+                              {request.url}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <button className="p-1 hover:bg-zinc-800 rounded">
+                              <EllipsisVertical className="w-3 h-3 text-zinc-400" />
+                            </button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="w-32">
+                            <DropdownMenuItem>
+                              <Edit className="text-blue-400 mr-2 w-3 h-3" />
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <Trash className="text-red-400 mr-2 w-3 h-3" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
                     </div>
-
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <button className="p-1 hover:bg-zinc-800 rounded">
-                            <EllipsisVertical className="w-3 h-3 text-zinc-400" />
-                          </button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-32">
-                          <DropdownMenuItem>
-                            <Edit className="text-blue-400 mr-2 w-3 h-3" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <Trash className="text-red-400 mr-2 w-3 h-3" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             ) : (
               <div className="pl-8 py-2">
